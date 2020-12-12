@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/cart.dart';
 import '../screens/product_detail_screen.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
     return ClipRRect(
       /*画像の角を丸くする*/
       borderRadius: BorderRadius.circular(15),
@@ -40,7 +42,7 @@ class ProductItem extends StatelessWidget {
               ),
               color: Theme.of(context).accentColor,
               onPressed: () {
-                product.toggledFavoriteStatus();
+                product.toggledFavoriteStatus(authData.token);
               },
             ),
           ),

@@ -25,11 +25,11 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggledFavoriteStatus() async {
+  Future<void> toggledFavoriteStatus(String token) async {
     final oldStatus = isFavorite; /*最初に古いステータスを保存*/
     isFavorite = !isFavorite;
     notifyListeners();
-    final url = 'https://shop-app-5b9d9.firebaseio.com/products/$id.json';
+    final url = 'https://shop-app-5b9d9.firebaseio.com/products/$id.json?auth=$token';
     try {
       final response = await http.patch(
         url,

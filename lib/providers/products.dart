@@ -41,6 +41,10 @@ class Products with ChangeNotifier {
     // ),
   ];
 
+  final String authToken;
+
+  Products(this.authToken, this._items);/*_itemsも初期化*/
+
   List<Product> get items {
     return [..._items]; /*スプレッド演算子...はリストの全ての要素を別のリストに挿入できる。*/
   }
@@ -55,7 +59,7 @@ class Products with ChangeNotifier {
 
   /*Futureはdart:asyncライブラリに含まれてる*/
   Future<void> fetchAndSetProducts() async {
-    const url = 'https://shop-app-5b9d9.firebaseio.com/products.json';
+    final url = 'https://shop-app-5b9d9.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body)
@@ -84,7 +88,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     /*EditProductScreenに新しく製品を追加*/
-    const url = 'https://shop-app-5b9d9.firebaseio.com/products.json';
+    final url = 'https://shop-app-5b9d9.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http /*移動する前にこの操作が終了するのを待ちたいことをDartに通知する*/
           .post(
@@ -119,7 +123,7 @@ class Products with ChangeNotifier {
     /*EditProductScreenにある製品を編集して更新*/
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
-      final url = 'https://shop-app-5b9d9.firebaseio.com/products/$id.json';
+      final url = 'https://shop-app-5b9d9.firebaseio.com/products/$id.json?auth=$authToken';
       await http.patch(url,
           body: json.encode({
             'title': newProduct.title,
@@ -137,7 +141,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     /*製品を削除*/
-    final url = 'https://shop-app-5b9d9.firebaseio.com/products/$id.json';
+    final url = 'https://shop-app-5b9d9.firebaseio.com/products/$id.json?auth=$authToken';
     final existingProductIndex = _items.indexWhere(
         (prod) => prod.id == id); /*アイテムを削除し、実際にリクエストを送る前に安全のためコピーする*/
     var existingProduct = _items[existingProductIndex];
