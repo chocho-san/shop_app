@@ -29,7 +29,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     // final orderData = Provider.of<Orders>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Orders'),
+        title: Text('注文履歴'),
       ),
       drawer: AppDrawer(),
       body: FutureBuilder(
@@ -40,7 +40,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
           } else {
             if (dataSnapshot.error != null) {
               return Center(
-                child: Text('error'),
+                child: Text('エラー'),
               );
             } else {
               return Consumer<Orders>(

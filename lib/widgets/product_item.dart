@@ -28,24 +28,33 @@ class ProductItem extends StatelessWidget {
               arguments: product.id,
             );
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: Consumer<Product>(
-            builder: (ctx, product, _) => IconButton(
+          leading:
+          // Consumer<Product>(
+          //   builder: (ctx, product, _) =>
+                IconButton(
               icon: Icon(
                 product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
               color: Theme.of(context).accentColor,
               onPressed: () {
-                product.toggledFavoriteStatus(authData.token);
+                product.toggledFavoriteStatus(
+                  authData.token,
+                  authData.userId,
+                );
               },
             ),
-          ),
+
           title: Text(
             product.title,
             textAlign: TextAlign.center,
@@ -61,10 +70,10 @@ class ProductItem extends StatelessWidget {
               Scaffold.of(context).showSnackBar(
                 /*親であるproducts_overview_screenまで戻る*/
                 SnackBar(
-                  content: Text('Added item to cart!'),
+                  content: Text('カートに追加されました！'),
                   duration: Duration(seconds: 2),
                   action: SnackBarAction(
-                    label: 'UNDO',
+                    label: '取消',
                     onPressed: () {
                       cart.removeSingleItem(product.id);
                     },

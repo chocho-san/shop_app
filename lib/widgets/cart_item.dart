@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
@@ -38,17 +36,17 @@ class CartItem extends StatelessWidget {
         return showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text('Do you want to remove the item from the cart?'),
+            title: Text('確認！'),
+            content: Text('カートからこの商品を取り消します。よろしいですか？'),
             actions: [
               FlatButton(
-                child: Text('No'),
+                child: Text('いいえ'),
                 onPressed: () {
                   Navigator.of(ctx).pop(false);
                 },
               ),
               FlatButton(
-                child: Text('Yes'),
+                child: Text('はい'),
                 onPressed: () {
                   Navigator.of(ctx).pop(true);
                 },
@@ -73,8 +71,8 @@ class CartItem extends StatelessWidget {
               ),
             ),
             title: Text(title),
-            subtitle: Text('Total: \$${(price * quantity)}'),
-            trailing: Text('$quantity ×'),
+            subtitle: Text('合計: \$${(price * quantity)}'),
+            trailing: Text('× $quantity'),
           ),
         ),
       ),

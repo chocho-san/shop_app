@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart'
     show Cart; /*あるパッケージから特定のオブジェクトだけimportする*/
-import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/widgets/cart_item.dart';
 import 'package:shop_app/providers/orders.dart';
 
@@ -15,7 +14,7 @@ class CartScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Cart'),
+        title: Text('My カート'),
       ),
       body: Column(
         children: [
@@ -25,7 +24,7 @@ class CartScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Total',
+                  '合計金額',
                   style: TextStyle(fontSize: 20),
                 ),
                 Spacer(),
@@ -78,7 +77,7 @@ class _OrderButtonState extends State<OrderButton> {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      child: _isLoading ? CircularProgressIndicator() :Text('ORDER NOW'),
+      child: _isLoading ? CircularProgressIndicator() :Text('今すぐ注文'),
       onPressed: (widget.cart.totalAmount <= 0|| _isLoading)
           ? null /*ボタンは自動的に無効*/
           : () async{

@@ -40,10 +40,10 @@ class Products with ChangeNotifier {
     //   'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     // ),
   ];
-
   final String authToken;
+  final String userId;
+  Products(this.authToken, this.userId ,this._items);/*_itemsも初期化*/
 
-  Products(this.authToken, this._items);/*_itemsも初期化*/
 
   List<Product> get items {
     return [..._items]; /*スプレッド演算子...はリストの全ての要素を別のリストに挿入できる。*/
@@ -58,8 +58,9 @@ class Products with ChangeNotifier {
   }
 
   /*Futureはdart:asyncライブラリに含まれてる*/
-  Future<void> fetchAndSetProducts() async {
-    final url = 'https://shop-app-5b9d9.firebaseio.com/products.json?auth=$authToken';
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString = filterByUser ?'orderBy="creatorId"&equalTo="$userId"' : '';
+    var url = 'https://shop-app-5b9d9.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body)
@@ -67,6 +68,9 @@ class Products with ChangeNotifier {
       if (extractedData == null) {
         return;
       }
+      url = 'https://shop-app-5b9d9.firebaseio.com/userFavorites/$userId.json?auth=$authToken&$filterString'; /*urlを上書きする*/
+      final favoriteResponse = await http.get(url);
+      final favoriteData = json.decode(favoriteResponse.body);
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(Product(
@@ -74,7 +78,7 @@ class Products with ChangeNotifier {
           title: prodData['title'],
           description: prodData['description'],
           price: prodData['price'],
-          isFavorite: prodData['isFavorite'],
+          isFavorite: favoriteData== null ? false :favoriteData[prodId] ?? false,
           imageUrl: prodData['imageUrl'],
         ));
       });
@@ -100,7 +104,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'price': product.price,
           'imageUrl': product.imageUrl,
-          'isFavorite': product.isFavorite,
+          'creatorId':userId,
         }),
       );
       final newProduct = Product(

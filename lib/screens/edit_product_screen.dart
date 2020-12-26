@@ -143,7 +143,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Product'),
+        title: Text('編集する'),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -164,7 +164,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     TextFormField(
                       initialValue: _initValues['title'],
                       /*値の初期化*/
-                      decoration: InputDecoration(labelText: 'Title'),
+                      decoration: InputDecoration(labelText: '商品名'),
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) {
                         FocusScope.of(context).requestFocus(_priceFocusNode);
@@ -189,7 +189,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     TextFormField(
                       initialValue: _initValues['price'],
                       /*値の初期化*/
-                      decoration: InputDecoration(labelText: 'Price'),
+                      decoration: InputDecoration(labelText: '値段'),
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.number,
                       focusNode: _priceFocusNode,
@@ -225,7 +225,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     TextFormField(
                       initialValue: _initValues['description'],
                       /*値の初期化*/
-                      decoration: InputDecoration(labelText: 'Description'),
+                      decoration: InputDecoration(labelText: '詳細'),
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,
                       focusNode: _descriptionFocusNode,
